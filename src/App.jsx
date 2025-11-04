@@ -21,11 +21,18 @@ function App() {
     try {
       setLoading(true)
       setError(null)
+      console.log('환경변수 확인:', import.meta.env.VITE_API_BASE_URL)
       const data = await getTodos()
       setTodos(data)
     } catch (err) {
-      setError(err.message || '할일 목록을 불러오는데 실패했습니다')
-      console.error('할일 불러오기 실패:', err)
+      const errorMessage = `${err.message}\n\n상세 정보: ${err.name || 'Unknown error'}`
+      setError(errorMessage)
+      console.error('할일 불러오기 실패 상세:', {
+        message: err.message,
+        name: err.name,
+        stack: err.stack,
+        apiUrl: import.meta.env.VITE_API_BASE_URL
+      })
     } finally {
       setLoading(false)
     }

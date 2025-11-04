@@ -3,8 +3,22 @@ const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000
 // 모든 할일 조회
 export const getTodos = async () => {
   try {
-    const response = await fetch(`${API_BASE_URL}/api/todos`);
+    console.log('API 호출 시작:', `${API_BASE_URL}/api/todos`);
+    const response = await fetch(`${API_BASE_URL}/api/todos`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    
+    console.log('응답 상태:', response.status, response.statusText);
+    
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    
     const data = await response.json();
+    console.log('받은 데이터:', data);
     
     if (!data.success) {
       throw new Error(data.message || '할일 목록을 불러오는데 실패했습니다');
@@ -12,7 +26,11 @@ export const getTodos = async () => {
     
     return data.data;
   } catch (error) {
-    console.error('할일 조회 에러:', error);
+    console.error('할일 조회 에러 상세:', {
+      message: error.message,
+      name: error.name,
+      stack: error.stack
+    });
     throw error;
   }
 };
