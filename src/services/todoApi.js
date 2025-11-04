@@ -1,4 +1,4 @@
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'https://vibe-todo-backend80-5f1297386c3c.herokuapp.com';
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000';
 
 // 모든 할일 조회
 export const getTodos = async () => {
