@@ -249,35 +249,4 @@
   background: #757575;
 }
 
-@media (max-width: 768px) {
-  .todo-item {
-    flex-wrap: wrap;
-    padding: 1rem;
-  }
-
-  .todo-checkbox {
-    order: 1;
-  }
-
-  .todo-content {
-    order: 2;
-    width: calc(100% - 40px);
-  }
-
-  .todo-actions {
-    order: 3;
-    width: 100%;
-    justify-content: flex-end;
-    margin-top: 0.5rem;
-  }
-
-  .btn-edit,
-  .btn-delete {
-    padding: 0.4rem 0.8rem;
-    font-size: 0.85rem;
-  }
-
-  .todo-edit-controls {
-    flex-direction: column;
-  }
-}
+/* 모바일에서도 PC 레이아웃 유지 */
