@@ -25,13 +25,21 @@ function App() {
       const data = await getTodos()
       setTodos(data)
     } catch (err) {
-      const errorMessage = `${err.message}\n\n상세 정보: ${err.name || 'Unknown error'}`
+      const apiUrl = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000'
+      const errorMessage = `에러 발생!\n\n` +
+        `에러 타입: ${err.name || 'Unknown'}\n` +
+        `메시지: ${err.message}\n\n` +
+        `API URL: ${apiUrl}\n` +
+        `환경: ${import.meta.env.MODE || 'unknown'}\n\n` +
+        `네트워크 연결을 확인해주세요.`
+      
       setError(errorMessage)
       console.error('할일 불러오기 실패 상세:', {
         message: err.message,
         name: err.name,
         stack: err.stack,
-        apiUrl: import.meta.env.VITE_API_BASE_URL
+        apiUrl: apiUrl,
+        mode: import.meta.env.MODE
       })
     } finally {
       setLoading(false)
