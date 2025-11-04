@@ -9,7 +9,7 @@ function App() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
   const [filterPriority, setFilterPriority] = useState('all')
-  const [filterStatus, setFilterStatus] = useState('all')
+  const [filterStatus, setFilterStatus] = useState('active')
   const [sortBy, setSortBy] = useState('dueDate')
 
   // 할일 목록 불러오기
@@ -95,12 +95,21 @@ function App() {
 
     // 정렬
     filtered.sort((a, b) => {
+      const priorityOrder = { urgent: 0, high: 1, medium: 2, low: 3 }
+      
       switch (sortBy) {
-        case 'dueDate':
+        case 'dueDate': {
+          // 우선순위 먼저 비교 (긴급>높음>보통>낮음)
+          const priorityDiff = priorityOrder[a.priority || 'medium'] - priorityOrder[b.priority || 'medium']
+          if (priorityDiff !== 0) return priorityDiff
+          // 같은 우선순위면 마감일 순
           return new Date(a.dueDate) - new Date(b.dueDate)
+        }
         case 'priority': {
-          const priorityOrder = { urgent: 0, high: 1, medium: 2, low: 3 }
-          return priorityOrder[a.priority || 'medium'] - priorityOrder[b.priority || 'medium']
+          const priorityDiff = priorityOrder[a.priority || 'medium'] - priorityOrder[b.priority || 'medium']
+          if (priorityDiff !== 0) return priorityDiff
+          // 같은 우선순위면 마감일 순
+          return new Date(a.dueDate) - new Date(b.dueDate)
         }
         case 'createdAt':
           return new Date(b.createdAt) - new Date(a.createdAt)
